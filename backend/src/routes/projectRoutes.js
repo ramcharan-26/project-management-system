@@ -1,0 +1,11 @@
+import {addProject,getProjects,getProjectByName,editProjectDetails,deleteProject} from "./../controller/projectController.js";
+import {authenticate} from "./../middleware/authenticate.js";
+import express from "express";
+const projectRoutes=express.Router();
+projectRoutes.use(authenticate);
+projectRoutes.post("/",addProject);
+projectRoutes.get("/",getProjects);
+projectRoutes.get("/search",getProjectByName);
+projectRoutes.put("/:id",editProjectDetails);
+projectRoutes.delete("/:id",deleteProject);
+export {projectRoutes};
