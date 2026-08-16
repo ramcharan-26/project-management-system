@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from 'cors';
 import {authRoutes} from "./src/routes/authRoutes.js";
 import {projectRoutes} from "./src/routes/projectRoutes.js";
+import { taskRouter } from "./src/routes/taskRoutes.js";
 
 dotenv.config();
 
@@ -21,7 +22,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/auth",authRoutes);
 app.use("/project",projectRoutes);
-await  connectDB();
-app.listen(PORT,()=>{
-   console.log(`server running on ${PORT}`);
-});
+app.use("/api",taskRouter);
+try{
+    await  connectDB();
+    app.listen(PORT,()=>{
+    console.log(`server running on ${PORT}`);
+    });
+}
+catch(err)
+{
+    console.log(`Error while initialising server : ${err}`);
+    process.exit(1);
+}
